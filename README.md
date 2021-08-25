@@ -1,2 +1,1 @@
-# home-assistant
-The Abode Home Assistant Configuration
+# The Abode - Home Assistant Configuration
