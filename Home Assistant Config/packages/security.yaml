@@ -1,6 +1,7 @@
-#################################################
-# Alarm Control
-################################################# 
+####################################################################
+# Sentry Guard - Intrusion Detection
+# Manual Platform: https://www.home-assistant.io/integrations/manual
+#################################################################### 
 alarm_control_panel:
   - platform: manual
     name: Sentry Guard
@@ -12,16 +13,16 @@ alarm_control_panel:
       arming_time: 0
       delay_time: 0
     armed_away:
-      arming_time: !secret away_arming_time
+      arming_time: 15
       delay_time: 0
     armed_night:
-      arming_time: !secret night_arming_time
+      arming_time: 30
       delay_time: 0
 
 
 automation:
   - id: 'b39f83b7-2d5c-49fb-83d2-f69aebdd4d72'
-    alias: Sentry Guard - Automation
+    alias: Intrusion Alarm
     description: 'Intrusion Detection with Choose Functionality'
     trigger:
     - platform: state
@@ -56,7 +57,7 @@ automation:
         data:
           actions:
           - action: TRIGGER_ALARM
-            title: Trigger Alarmp
+            title: Trigger Alarm
             destructive: true
             authenticationRequired: false
           - action: DISARM_ALARM
@@ -94,7 +95,12 @@ automation:
             data:
               notification_id: intrusion_alarm
               message: Alarm triggered via Automation
-              title: Alarm via Automation
+              title: Sentry Guard has been Activated!
+          - service: media_player.select_source
+            data:
+              source: Disney+
+            target:
+              entity_id: media_player.parents_living_room_tv
         - conditions:
           - condition: trigger
             id: Trigger Alarm (Actionable Notification)
@@ -106,7 +112,7 @@ automation:
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm
-              title: Alarm triggered via Actionable Notification
+              title: Sentry Guard is Online!
               message: Alarm triggered manually via an actionable notification
         - conditions:
           - condition: trigger
@@ -119,7 +125,7 @@ automation:
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm
-              title: Panic Alarm Triggered
+              title: Sentry Guard has been Activated!
               message: Panic Alarm Triggered
         - conditions:
           - condition: trigger
@@ -133,7 +139,7 @@ automation:
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm
-              title: Alarm disarmed via actionable notification
+              title: Sentry Guard has been Activated!
               message: Alarm disarmed via actionable notifications
           - service: tts.google_say
             data:
@@ -158,4 +164,9 @@ automation:
               title: Alarm disarmed via automation
               message: Alarm disarmed via automation
       default: []
-    mode: queued
+#        - service: persistent_notification.create
+#          data:
+#            notification_id: intrusion_alarm-no_action
+#            title: Panic Alarm Triggered
+#            message: Panic Alarm Triggered
+    mode: single
