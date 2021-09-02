@@ -5,7 +5,7 @@
 
 <h1 align="center">
   <br>
-  The Dome Abode
+  About The Dome Abode Project
 </h1>
 
 This repo contains the current working [Home Assistant](https://home-assistant.io/) configuration for **The Dome Abode**.
