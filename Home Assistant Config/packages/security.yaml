@@ -1,7 +1,7 @@
-####################################################################
-# Sentry Guard - Intrusion Detection
+#################################################
+# Alarm Control
 # Manual Platform: https://www.home-assistant.io/integrations/manual
-#################################################################### 
+################################################# 
 alarm_control_panel:
   - platform: manual
     name: Sentry Guard
@@ -45,7 +45,7 @@ automation:
         action: PANIC_ALARM
       id: Panic Alarm (Actionable Notification)
     - platform: state
-      entity_id: alarm_control_panel.sentry
+      entity_id: alarm_control_panel.sentry_guard
       to: disarmed
       id: Disarm Alarm (Auto)
     condition: []
@@ -75,18 +75,18 @@ automation:
           - condition: or
             conditions:
               - condition: state
-                entity_id: alarm_control_panel.sentry
+                entity_id: alarm_control_panel.sentry_guard
                 state: armed_home
               - condition: state
-                entity_id: alarm_control_panel.sentry
+                entity_id: alarm_control_panel.sentry_guard
                 state: armed_away
               - condition: state
-                entity_id: alarm_control_panel.sentry
+                entity_id: alarm_control_panel.sentry_guard
                 state: armed_night
           sequence:
           - service: alarm_control_panel.alarm_trigger
             target:
-              entity_id: alarm_control_panel.sentry
+              entity_id: alarm_control_panel.sentry_guard
           - service: tts.google_say
             data:
               entity_id: media_player.house_speakers
@@ -98,7 +98,7 @@ automation:
               title: Sentry Guard has been Activated!
           - service: media_player.select_source
             data:
-              source: Disney+
+              source: Cameras
             target:
               entity_id: media_player.parents_living_room_tv
         - conditions:
@@ -114,6 +114,11 @@ automation:
               notification_id: intrusion_alarm
               title: Sentry Guard is Online!
               message: Alarm triggered manually via an actionable notification
+          - service: media_player.select_source
+            data:
+              source: Camera
+            target:
+              entity_id: media_player.parents_living_room_tv
         - conditions:
           - condition: trigger
             id: Panic Alarm (Actionable Notification)
@@ -135,7 +140,7 @@ automation:
             data:
               code: !secret alarm_code
             target:
-              entity_id: alarm_control_panel.sentry
+              entity_id: alarm_control_panel.sentry_guard
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm
@@ -151,7 +156,7 @@ automation:
           sequence:
           - service: alarm_control_panel.alarm_disarm
             target:
-              entity_id: alarm_control_panel.sentry
+              entity_id: alarm_control_panel.sentry_guard
             data:
               code: !secret alarm_code
           - service: tts.google_say
