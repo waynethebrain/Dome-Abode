@@ -116,7 +116,7 @@ automation:
               title: Sentry Guard has been Activated!
           - service: media_player.select_source
             data:
-              source: Disney+
+              source: CCTV
             target:
               entity_id: media_player.parents_living_room_tv
         - conditions:
@@ -134,7 +134,7 @@ automation:
               message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
           - service: media_player.select_source
             data:
-              source: Cameras
+              source: CCTV
             target:
               entity_id: media_player.parents_living_room_tv
         - conditions:
