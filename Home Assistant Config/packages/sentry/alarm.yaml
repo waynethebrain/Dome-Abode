@@ -22,7 +22,7 @@ alarm_control_panel:
 
 automation:
   - id: 'b39f83b7-2d5c-49fb-83d2-f69aebdd4d72'
-    alias: Intrusion Alarm
+    alias: Sentry Guard - Intrusion Alarm
     description: 'Intrusion Detection with Choose Functionality'
     trigger:
     - platform: state
@@ -53,7 +53,25 @@ automation:
     - service: notify.mobile_app_waynes_ipad
       data:
         title: Sentry Guard has been Activated!
-        message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} at {{now().strftime("%m/%d/%Y %H:%M:%S")}} - Actionable Notification.
+        message: Something is happening in the Abode [Sensor (if applicatble) --- {{ trigger.to_state.attributes.friendly_name }} at {{now().strftime("%m/%d/%Y %H:%M:%S")}}].
+        data:
+          actions:
+          - action: TRIGGER_ALARM
+            title: Trigger Alarm
+            destructive: true
+            authenticationRequired: false
+          - action: DISARM_ALARM
+            title: Disarm Alarm
+            destructive: false
+            authenticationRequired: false
+          - action: PANIC_ALARM
+            title: Activate Panic Alarm
+            destructive: true
+            authenticationRequired: true
+    - service: notify.mobile_app_waynes_ipad
+      data:
+        title: Sentry Guard has been Activated!
+        message: Something is happening in the Abode [Sensor (if applicatble) --- {{ trigger.to_state.attributes.friendly_name }} at {{now().strftime("%m/%d/%Y %H:%M:%S")}}.]
         data:
           actions:
           - action: TRIGGER_ALARM
@@ -90,11 +108,11 @@ automation:
           - service: tts.google_say
             data:
               entity_id: media_player.house_speakers
-              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M:%S")}}.
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm_triggered
-              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M:%S")}}.
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
               title: Sentry Guard has been Activated!
           - service: media_player.select_source
             data:
@@ -108,17 +126,17 @@ automation:
           - service: tts.google_say
             data:
               entity_id: media_player.house_speakers
-              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M:%S")}}.
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm_triggered_actionable_notification
               title: Sentry Guard is Online!
-              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M:%S")}}.
-#          - service: media_player.select_source
-#            data:
-#              source: Disney+
-#            target:
-#              entity_id: media_player.parents_living_room_tv
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
+          - service: media_player.select_source
+            data:
+              source: Cameras
+            target:
+              entity_id: media_player.parents_living_room_tv
         - conditions:
           - condition: trigger
             id: Panic Alarm (Actionable Notification)
@@ -145,11 +163,11 @@ automation:
             data:
               notification_id: intrusion_alarm
               title: Sentry Guard has been Activated!
-              message: Alarm disarmed via actionable notification at {{now().strftime("%m/%d/%Y %H:%M:%S")}}
+              message: Alarm disarmed via actionable notification at {{now().strftime("%m/%d/%Y %H:%M %p")}}
           - service: tts.google_say
             data:
               entity_id: media_player.house_speakers
-              message: Alarm disarmed via Actionable Notification at {{now().strftime("%m/%d/%Y %H:%M:%S")}}
+              message: Alarm disarmed via Actionable Notification at {{now().strftime("%m/%d/%Y %H:%M %p")}}
         - conditions:
           - condition: trigger
             id: Disarm Alarm (Auto)
@@ -162,16 +180,11 @@ automation:
           - service: tts.google_say
             data:
               entity_id: media_player.house_speakers
-              message: Alarm disarmed via automation at {{now().strftime("%m/%d/%Y %H:%M:%S")}}
+              message: Alarm disarmed via automation at {{now().strftime("%m/%d/%Y %H:%M %p")}}
           - service: persistent_notification.create
             data:
               notification_id: intrusion_alarm
               title: Alarm disarmed via automation 
-              message: Alarm disarmed via automation at {{now().strftime("%m/%d/%Y %H:%M:%S")}}
+              message: Alarm disarmed via automation at {{now().strftime("%m/%d/%Y %H:%M %p")}}
       default: []
-#        - service: persistent_notification.create
-#          data:
-#            notification_id: intrusion_alarm-no_action
-#            title: Panic Alarm Triggered
-#            message: Panic Alarm Triggered
     mode: single
