@@ -10,6 +10,6 @@ This document is mean to be a guide to the packages in this config. Below is a s
 
 The Mailbox package handles all the mailbox related entities. It contains switches, sensors, automations and scripts. 
 
-### security.yaml
+### Saftey/sentry.yaml
 
-The Security package handles all the security related entities. It contains switches, sensors, automations and scripts.
+The Sentry package handles all the security related entities. It contains switches, sensors, automations and scripts.
