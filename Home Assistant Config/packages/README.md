@@ -6,7 +6,7 @@ This document is mean to be a guide to the packages in this config. Below is a s
 
 <hr>
 
-### mailbox.yaml
+### Mailbox / mailbox.yaml
 
 The Mailbox package handles all the mailbox related entities. It contains switches, sensors, automations and scripts. 
 
