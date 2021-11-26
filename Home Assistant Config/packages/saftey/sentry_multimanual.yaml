@@ -1,0 +1,221 @@
+#################################################
+# Alarm Control
+# Manual Platform: https://www.home-assistant.io/integrations/manual
+################################################# 
+alarm_control_panel:
+  - platform: manual
+    name: Sentry Guard
+    code: !secret alarm_code
+    trigger_time: 3600
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
+    armed_away:
+      arming_time: 15
+      delay_time: 0
+    armed_night:
+      arming_time: 30
+      delay_time: 0
+  - platform: manual
+    name: Hannah Suite Alarm
+    code: !secret hannah_alarm_code
+    trigger_time: 3600
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
+    armed_away:
+      arming_time: 15
+      delay_time: 0
+    armed_night:
+      arming_time: 30
+      delay_time: 0
+  - platform: manual
+    name: Becca Suite Alarm
+    code: !secret becca_alarm_code
+    trigger_time: 3600
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
+    armed_away:
+      arming_time: 15
+      delay_time: 0
+    armed_night:
+      arming_time: 30
+      delay_time: 0
+
+script:
+
+automation:
+  - id: 'b39f83b7-2d5c-49fb-83d2-f69aebdd4d72'
+    alias: Sentry Guard - Intrusion Alarm
+    description: 'Intrusion Detection with Choose Functionality'
+    trigger:
+    - platform: state
+      entity_id: input_boolean.demo_virtual_doorsensor
+      to: 'on'
+      id: Demo Virtual Doorsensor
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: TRIGGER_ALARM
+      id: Trigger Alarm (Actionable Notification)
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: DISARM_ALARM
+      id: Disarm Alarm (Actionable Notification)
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: PANIC_ALARM
+      id: Panic Alarm (Actionable Notification)
+    - platform: state
+      entity_id: alarm_control_panel.sentry_guard
+      to: disarmed
+      id: Disarm Alarm (Auto)
+    condition: []
+    action: 
+    - service: notify.mobile_app_waynes_ipad
+      data:
+        title: Sentry Guard has been Activated!
+        message: Something is happening in the Abode [Sensor (if applicatble) --- {{ trigger.to_state.attributes.friendly_name }} at {{now().strftime("%m/%d/%Y %H:%M:%S")}}].
+        data:
+          actions:
+          - action: TRIGGER_ALARM
+            title: Trigger Alarm
+            destructive: true
+            authenticationRequired: false
+          - action: DISARM_ALARM
+            title: Disarm Alarm
+            destructive: false
+            authenticationRequired: false
+          - action: PANIC_ALARM
+            title: Activate Panic Alarm
+            destructive: true
+            authenticationRequired: true
+    - service: notify.mobile_app_waynes_ipad
+      data:
+        title: Sentry Guard has been Activated!
+        message: Something is happening in the Abode [Sensor (if applicatble) --- {{ trigger.to_state.attributes.friendly_name }} at {{now().strftime("%m/%d/%Y %H:%M:%S")}}.]
+        data:
+          actions:
+          - action: TRIGGER_ALARM
+            title: Trigger Alarm
+            destructive: true
+            authenticationRequired: false
+          - action: DISARM_ALARM
+            title: Disarm Alarm
+            destructive: false
+            authenticationRequired: false
+          - action: PANIC_ALARM
+            title: Activate Panic Alarm
+            destructive: true
+            authenticationRequired: true
+    - choose:
+        - conditions:
+          - condition: trigger
+            id: Demo Virtual Doorsensor
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: alarm_control_panel.sentry_guard
+                state: armed_home
+              - condition: state
+                entity_id: alarm_control_panel.sentry_guard
+                state: armed_away
+              - condition: state
+                entity_id: alarm_control_panel.sentry_guard
+                state: armed_night
+          sequence:
+          - service: alarm_control_panel.alarm_trigger
+            target:
+              entity_id: alarm_control_panel.sentry_guard
+          - service: tts.google_say
+            data:
+              entity_id: media_player.house_speakers
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
+          - service: persistent_notification.create
+            data:
+              notification_id: intrusion_alarm_triggered
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
+              title: Sentry Guard has been Activated!
+          - service: media_player.select_source
+            data:
+              source: CCTV
+            target:
+              entity_id: media_player.parents_living_room_tv
+        - conditions:
+          - condition: trigger
+            id: Trigger Alarm (Actionable Notification)
+          sequence:
+          - service: tts.google_say
+            data:
+              entity_id: media_player.house_speakers
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
+          - service: persistent_notification.create
+            data:
+              notification_id: intrusion_alarm_triggered_actionable_notification
+              title: Sentry Guard is Online!
+              message: An intrusion has been detected via {{ trigger.to_state.attributes.friendly_name }} via triggered automation. Intrusion occured at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
+          - service: media_player.select_source
+            data:
+              source: CCTV
+            target:
+              entity_id: media_player.parents_living_room_tv
+        - conditions:
+          - condition: trigger
+            id: Panic Alarm (Actionable Notification)
+          sequence:
+          - service: tts.google_say
+            data:
+              entity_id: media_player.house_speakers
+              message: Silent Alarm Triggered via Actionable Notification
+          - service: persistent_notification.create
+            data:
+              notification_id: intrusion_alarm
+              title: Sentry Guard has been Activated!
+              message: Panic Alarm Triggered
+        - conditions:
+          - condition: trigger
+            id: Disarm Alarm (Actionable Notification)
+          sequence:
+          - service: alarm_control_panel.alarm_disarm
+            data:
+              code: !secret alarm_code
+            target:
+              entity_id: alarm_control_panel.sentry_guard
+          - service: persistent_notification.create
+            data:
+              notification_id: intrusion_alarm
+              title: Sentry Guard has been Activated!
+              message: Alarm disarmed via actionable notification at {{now().strftime("%m/%d/%Y %H:%M %p")}}
+          - service: tts.google_say
+            data:
+              entity_id: media_player.house_speakers
+              message: Alarm disarmed via Actionable Notification at {{now().strftime("%m/%d/%Y %H:%M %p")}}
+        - conditions:
+          - condition: trigger
+            id: Disarm Alarm (Auto)
+          sequence:
+          - service: alarm_control_panel.alarm_disarm
+            target:
+              entity_id: alarm_control_panel.sentry_guard
+            data:
+              code: !secret alarm_code
+          - service: tts.google_say
+            data:
+              entity_id: media_player.house_speakers
+              message: Alarm disarmed via automation at {{now().strftime("%m/%d/%Y %H:%M %p")}}
+          - service: persistent_notification.create
+            data:
+              notification_id: intrusion_alarm
+              title: Alarm disarmed via automation 
+              message: Alarm disarmed via automation at {{now().strftime("%m/%d/%Y %H:%M %p")}}
+      default: []
+    mode: single
