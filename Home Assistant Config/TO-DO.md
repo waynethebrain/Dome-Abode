@@ -1,1 +1,1 @@
-Text
+- [ ] \(Optional) Open a followup
