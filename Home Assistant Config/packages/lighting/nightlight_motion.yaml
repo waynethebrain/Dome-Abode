@@ -3,7 +3,7 @@
 # Nightlight Automation
 # GitHub: @waynethebrain
 # Nightlight automations using motion & open/close sensors with the choose, sequence and repeat functions.
-#
+# 
 ###################################################################################################
 
 
@@ -67,10 +67,10 @@ automation:
                       minutes: 5
                       seconds: 0
                       milliseconds: 0  
-            - type: turn_off
-              device_id: 48713c969ec8bdbb02c7ee3f2aaca6e1
-              entity_id: light.test_light_level_on_off
-              domain: light
+                  - type: turn_off
+                    device_id: 48713c969ec8bdbb02c7ee3f2aaca6e1
+                    entity_id: light.test_light_level_on_off
+                    domain: light
         #Codition 1
         # - conditions: []
         #   sequence: []
