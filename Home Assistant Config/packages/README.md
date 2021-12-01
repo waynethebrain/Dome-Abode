@@ -6,6 +6,10 @@ This document is mean to be a guide to the packages in this config. Below is a s
 
 <hr>
 
+### lighting / nightlight.yaml
+
+The Nightlight package handles all nightlight related entities. It contains switches, sensors, automations and scripts.
+
 ### mailbox / mailbox.yaml
 
 The Mailbox package handles all the mailbox related entities. It contains switches, sensors, automations and scripts. 
