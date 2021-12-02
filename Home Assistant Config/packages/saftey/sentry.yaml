@@ -18,7 +18,38 @@ alarm_control_panel:
     armed_night:
       arming_time: 30
       delay_time: 0
+  - platform: manual
+    name: Hannah Suite Alarm
+    code: !secret hannah_alarm_code
+    trigger_time: 3600
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
+    armed_away:
+      arming_time: 15
+      delay_time: 0
+    armed_night:
+      arming_time: 30
+      delay_time: 0
+  - platform: manual
+    name: Becca Suite Alarm
+    code: !secret becca_alarm_code
+    trigger_time: 3600
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
+    armed_away:
+      arming_time: 15
+      delay_time: 0
+    armed_night:
+      arming_time: 30
+      delay_time: 0
 
+script:
 
 automation:
   - id: 'b39f83b7-2d5c-49fb-83d2-f69aebdd4d72'
@@ -102,6 +133,9 @@ automation:
                 entity_id: alarm_control_panel.sentry_guard
                 state: armed_night
           sequence:
+          - service: notify.parents_living_room_tv
+            data:
+              message: Intrusion Detected
           - service: alarm_control_panel.alarm_trigger
             target:
               entity_id: alarm_control_panel.sentry_guard
