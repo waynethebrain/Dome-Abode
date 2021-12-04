@@ -16,3 +16,15 @@ This repo contains the current working [Home Assistant](https://home-assistant.i
 What is The Dome Abode Homestead?</h3>
 Well, I am glad you asked. The Dome Abode is the name I chose for my plans of building a <a href="https://en.wikipedia.org/wiki/Monolithic_dome" target="_blank">monolithic dome home</a> on a homestead I plan on purchasing in the near future around the central Indiana region. 
 
+
+
+
+
+
+
+
+
+
+
+
+<a href="https://www.span.io/" target="_blank">SPAN.io Electrial Panel</a>
