@@ -12,7 +12,8 @@ group:
   nightlights:
     entities:
       - light.test_light_level_on_off
-
+      
+#scripts:
 
 automation:
   - id: 'f894468f-73a4-4dd1-bbf6-d44178645c42'
