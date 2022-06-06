@@ -1,8 +1,0 @@
-https://community.home-assistant.io/t/proximity-home-always-0/148181/7
-https://community.home-assistant.io/t/proximity-automation-help-wanted/223966/8
-https://community.home-assistant.io/t/proximity-home-always-0/148181/7
-https://community.home-assistant.io/t/understanding-proximity-integraton/195559
-https://community.home-assistant.io/t/understanding-proximity-integraton/195559
-https://community.home-assistant.io/t/proximity-question/143990
-https://community.home-assistant.io/t/proximity-advice-and-help-me-please/27084
-https://community.home-assistant.io/t/proximity-with-multiple-users/6411
