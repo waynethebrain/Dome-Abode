@@ -1,7 +1,13 @@
-##################################################
-# Warning when earthquake notice received
+---
+#########################################################################################################
+# Twitch Integration
+# GitHub: @waynethebrain/home-assistant-config/
+# Version: 3.6522.2
 # OP: https://raw.githubusercontent.com/BeardedTinker/Home-Assistant_Config/master/automations/weather/earthquake_detected.yaml
-##################################################
+# Description: Warning when earthquake notice received
+# Notes: Twitch Purple Hex Color Code: #9146FF
+# Latest Error: None - 6/5/2022 6:00PM
+#########################################################################################################
 
 alias: Earthquake Alert
 id: 3a4e8f05-1526-4341-a675-e15bacfa0955
