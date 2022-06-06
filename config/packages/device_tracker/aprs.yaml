@@ -1,5 +1,0 @@
-# Example configuration.yaml entry
-platform: aprs
-username: KC9OUI  # or FO0BAR-1 to FO0BAR-15
-callsigns:
-  - 'KC9TIS'
