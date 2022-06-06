@@ -2,13 +2,16 @@
 #########################################################################################################
 # USGS Earthquake Alert
 # GitHub: @waynethebrain
-# URL: https://github.com/waynethebrain/Dome-Abode/tree/main/Home%20Assistant%20Config
+# -------------------------
 # Version: 1.0.2
-# OP: BeardedTinker
+# OP: @waynethebrain
 # OP Source URL: https://raw.githubusercontent.com/BeardedTinker/Home-Assistant_Config/master/automations/weather/earthquake_detected.yaml
-# Description: Warning when earthquake notice received
-# Notes: Twitch Purple Hex Color Code: #228C22
-# Latest Error: None - 6/5/2022 6:00PM
+# -------------------------
+# Description: Warning when earthquake notice received\
+# Platform/Integrations Used: USGS 
+# -------------------------
+# Notes: USGS Green Hex Color Code: #228C22
+# Latest Error: None
 #########################################################################################################
 
 alias: Earthquake Alert
