@@ -1,0 +1,38 @@
+##################################################
+# Warning when earthquake notice received
+# OP: https://raw.githubusercontent.com/BeardedTinker/Home-Assistant_Config/master/automations/weather/earthquake_detected.yaml
+##################################################
+
+alias: Earthquake Alert
+id: 3a4e8f05-1526-4341-a675-e15bacfa0955
+trigger:
+  - platform: geo_location
+    source: usgs_earthquakes_feed
+    zone: zone.home
+    event: enter
+
+action:
+- service: script.notify_engine
+  data:
+    who: 'family'
+    title: '⚠ *Earthquake Alert!*'
+    value1: 'Earthquake detected! Stay calm!'
+    target_id: !secret telegram_bot_chat_id
+    group: weather   
+    tag_id: 'warning'
+    importance_id: default
+    color: 'red'
+    sticky: 'true'
+
+- data:
+    entity_id:
+      - media_player.display_me
+      - media_player.clock_me
+    volume_level: 0.5
+  service: media_player.volume_set
+- data:
+    entity_id:
+      - media_player.display_me
+      - media_player.clock_me
+    message: 'Earthquake detected! Stay calm!'
+  service: tts.google_translate_say
