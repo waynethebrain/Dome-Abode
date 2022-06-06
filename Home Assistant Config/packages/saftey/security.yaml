@@ -1,12 +1,15 @@
 ---
 #########################################################################################################
 # Sentry (Intrusion Detetction Control)
-# GitHub: @waynethebrain/home-assistant-config/
-# Version: 3.6522.2
-# Manual Platform: https://www.home-assistant.io/integrations/manual
-# OP: https://raw.githubusercontent.com/BeardedTinker/Home-Assistant_Config/master/automations/weather/earthquake_detected.yaml
+# Version: 3.3.1
+# -------------------------
+# OP: @waynethebrain
+# OP: https://github.com/waynethebrain/Dome-Abode/edit/main/Home%20Assistant%20Config/packages/saftey/security.yaml
+# -------------------------
+# Platform/Integrations Used: Manual Platform - https://www.home-assistant.io/integrations/manual
 # Description: Warning when earthquake notice received
-# Notes: Twitch Purple Hex Color Code: #9146FF
+# -------------------------
+# Notes: 
 # Latest Error: None - 6/5/2022 6:00PM
 #########################################################################################################
 alarm_control_panel:
