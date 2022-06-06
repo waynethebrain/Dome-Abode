@@ -1,11 +1,13 @@
 ---
 #########################################################################################################
-# Twitch Integration
-# GitHub: @waynethebrain/home-assistant-config/
-# Version: 3.6522.2
-# OP: https://raw.githubusercontent.com/BeardedTinker/Home-Assistant_Config/master/automations/weather/earthquake_detected.yaml
+# USGS Earthquake Alert
+# GitHub: @waynethebrain
+# URL: https://github.com/waynethebrain/Dome-Abode/tree/main/Home%20Assistant%20Config
+# Version: 1.0.1
+# OP: BeardedTinker
+# OP Source URL: https://raw.githubusercontent.com/BeardedTinker/Home-Assistant_Config/master/automations/weather/earthquake_detected.yaml
 # Description: Warning when earthquake notice received
-# Notes: Twitch Purple Hex Color Code: #9146FF
+# Notes: Twitch Purple Hex Color Code: #228C22
 # Latest Error: None - 6/5/2022 6:00PM
 #########################################################################################################
 
