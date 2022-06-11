@@ -1,0 +1,3 @@
+sensor:
+  - platform: youtube
+    channel_id: UC3VW-yo-88jkrWYbyHBxYUg
