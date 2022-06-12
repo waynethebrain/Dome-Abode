@@ -2,9 +2,9 @@
 ###################################################################################################
 # YouTube Content Notifications
 #
-# Original Repo: PinkyWafer
-# https://github.com/pinkywafer/Home-Assistant_Config/blob/master/packages/youtube/youtube_notifications.yaml
-# YouTube Color Hex Code: #FF0000 (RED), #282828 (Almost Black)
+# Original Repo: Custom Components
+# https://github.com/custom-components/youtube
+# YouTube Color Hex Code: #FF0000 (RED), #282828 (Almost Black), #FFFFFF (White)
 ###################################################################################################
 group:
   YouTube:
