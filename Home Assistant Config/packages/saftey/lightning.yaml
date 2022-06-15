@@ -1,0 +1,109 @@
+---
+#####################################################################################
+## Lightning is no Joke around here.
+# @CCOSTAN
+# Original Repo : https://github.com/CCOSTAN/Home-AssistantConfig
+# https://github.com/CCOSTAN/Home-AssistantConfig/issues/392
+# https://www.vcloudinfo.com/2020/08/adding-a-lightning-sensor-to-home-assistant.html
+# https://www.youtube.com/watch?v=jwnovbXCrGY
+#####################################################################################
+#input_boolean:
+#  snooze_lightning:
+#    name: Snooze Lightning
+#    initial: off
+#    icon: mdi:weather-lightning
+
+#ios:
+#  push:
+#    categories:
+#      - name: Lightning
+#        identifier: 'LIGHTNING'
+#        actions:
+#          - identifier: 'SNOOZE_LIGHTNING'
+#            title: 'Snooze Alerts until tomorrow'
+#            activationMode: 'background'
+#            authenticationRequired: no
+#            destructive: no
+
+group:
+  Blitzortung Alerts:
+    - sensor.blitzortung_lightning_azimuth
+    - sensor.blitzortung_lightning_counter
+    - sensor.blitzortung_lightning_distance
+    - input_boolean.snooze_lightning
+    
+
+automation:
+  - alias: Weather // Lightning / Snooze Lightning Alerts
+    description: CCOSTAN - Snooze Lightning Alerts
+    id: 1f295bb8-8925-4b22-8f75-9l1a8
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: SNOOZE_LIGHTNING
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.snooze_lightning
+
+  - alias: Weather // Lightning / Lightning Notification
+    id: 97663d7d-45a8-4fd3-a925-6584711c31be
+    description: CCOSTAN - Lightning Notification
+    trigger:
+      - platform: state
+        entity_id: sensor.blitzortung_lightning_counter
+    condition:
+#      - condition: state
+#        entity_id: person.wayne
+#        state: home
+      - condition: numeric_state
+        entity_id: sensor.blitzortung_lightning_counter
+        above: '0'
+      - condition: state
+        entity_id: input_boolean.snooze_lightning
+        state: 'off'
+    action:
+    - service: notify.parents_living_room_tv
+      data_template: 
+        message: >
+          "Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1, 'floor')}} Miles of our home.  Be careful if outdoors."
+#    - service: script.notify_engine
+#      data:
+#        title: 'Lightning Warning!'
+#        value1: "Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1, 'floor')}} Miles of our home.  Be careful if outdoors."
+#        ios_category: "LIGHTNING"
+#        who: 'family'
+#        apns_id: 'Lightning'
+#    - service: script.speech_engine
+#      data:
+#        value1: "Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1, 'floor')}} Miles of our home.  Please make sure everyone is inside the house."
+#        call_window_check: 1
+#        call_garage_check: 1
+    - service: tts.google_say
+      data:
+        entity_id: media_player.house_speakers
+        cache: true
+        language: en
+        message: >-
+          "Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1,     'floor')}} Miles of our home.  Be careful if outdoors.
+    - service: notify.mobile_app_jrs_iphone
+      data:
+        title: Lightning Warning!
+        message: >-
+          Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1,     'floor')}} Miles of our home.  Please make sure everyone is inside the house.
+        data:
+          actions:
+            - action: "SNOOZE_LIGHTNING"
+              title: "Snooze Lightning Notifications"
+              authenticationRequired: true
+    # - service: notify.twitter
+    #   data_template:
+    #     message: >
+    #      Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1,     'floor')}} Miles of our home.  Be careful if outdoors.
+    - service: persistent_notification.create
+      data_template:
+        notification_id: lightning_notification
+        message: Lightning has been detected within {{(states('sensor.blitzortung_lightning_distance') | int / 1.69) | round (1,     'floor')}} Miles of our home.  Be careful if outdoors.  [Weather Dashboard](http://homeassistant:8123/lovelace/weather) or [Mobile Weather Dashboard](http://homeassistant:8123/lovelace-mobile/weather)  
+        title: Lightning Alert
+    - delay: 00:30:00
+    mode: single
