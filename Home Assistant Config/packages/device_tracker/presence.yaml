@@ -1,0 +1,155 @@
+---
+###################################################################################################
+#Presence Automation
+#Git @waynethebrain/home-assistant-config/packages/device_tracker/presence.yaml
+#Using Person Domain and other sensors to determine when someone arrives or leaves. 
+#
+###################################################################################################
+group: 
+  sweethearts:
+    name: Sweethearts
+    icon: mdi:heart-multiple
+    entities:
+      - person.wayne
+      - person.sweetheart
+  sisters:
+    name: Sisters
+    icon: mdi:human-female-female
+    entities:
+      - person.hannah
+      - person.becca
+  residents:
+    name: Household Residents
+    icon: mdi:home-account
+    entities:
+      - person.wayne
+      - person.sweetheart
+      - person.hannah
+      - person.devin
+      - person.becca
+      - person.mom
+      - person.dad
+  parents:
+    name: Parents
+    icon: mdi:human-male-female-child
+    entities:
+      - person.mom
+      - person.dad
+script:
+
+automation:
+  - id: 'a5f02408-9f40-462d-8f38-40fdc86bc6b2'
+    alias: Presence  // Presence Automation
+    description: Presence Automation in YAML
+    trigger: 
+#      - platform: sun
+#        event: sunrise
+#        offset: '-00:15:00'
+#        id: Morning
+#      - platform: sun
+#        event: sunset
+#        offset: '-01:00:00'
+#        id: Evening
+#      - platform: time
+#        at: '22:00:00'
+#        id: Night
+      - platform: state #Choose 0 - Line 85# 
+        entity_id: group.sisters
+        from: not_home
+        to: home
+        id: Sisters Have Arrived
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - platform: state
+        entity_id: group.parents
+        from: not_home
+        to: home
+        id: Parent's Have Arrived
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - platform: zone
+        entity_id: person.wayne
+        zone: home
+        id: Wayne has arrived in the home zone
+        event: enter
+##End of Person Leaving Detection################
+    action:
+    - choose:
+        ##Choose 0 ##
+      - conditions:
+        - condition: trigger
+          id: Sisters Have Arrived
+        sequence: 
+        - service: persistent_notification.create
+          data:
+            notification_id: presence_sisters
+            title: Greetings {{ trigger.to_state.attributes.friendly_name }}, have arrived home!
+            message: Text {{ trigger.to_state.attributes.friendly_name }} has arrived home.
+        - service: alarm_control_panel.alarm_disarm
+          target:
+            entity_id: alarm_control_panel.sentry_guard
+          data:
+            code: !secret alarm_code
+        ##Choose 1##
+      - conditions: []
+        sequence: []
+        ##Choose 2##
+      - conditions: []
+        sequence: []
+        ##Choose 3##
+      - conditions: []
+        sequence: []
+        ##Choose 4##
+      - conditions: []
+        sequence: []
+        ##Choose 5##
+      - conditions: []
+        sequence: []
+        ##Choose 6##
+      - conditions: []
+        sequence: []
+        ##Choose 7##
+      - conditions: []
+        sequence: []
+        ##Choose 8##
+      - conditions: []
+        sequence: []
+        ##Choose 9##
+      - conditions: []
+        sequence: []
+        ##Choose 10##
+      - conditions: []
+        sequence: []
+        ##Choose 11##
+      - conditions: []
+        sequence: []
+        ##Choose 12##
+      - conditions: []
+        sequence: []
+        ##Choose 13##
+      - conditions: []
+        sequence: []
+        ##Choose 14##
+      - conditions: []
+        sequence: []
+        ##Choose 15##
+      - conditions: []
+        sequence: []
+        ##Choose 16##
+      - conditions: []
+        sequence: []
+        ##Choose 17##
+      - conditions: []
+        sequence: []
+        ##Choose 18##
+      - conditions: []
+        sequence: []
+      default: []
+    mode: queued
+    max: 9
