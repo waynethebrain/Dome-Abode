@@ -16,31 +16,43 @@ sensor:
   client_secret: !secret twitch_api_secret
   token: !secret twitch_token
   channels:
-    - !secret twitch1
-    - !secret twitch2
-    - !secret twitch7
+#    - drzzs
+#    - jfavignano
+#    - squirrel
+
 group:
   Twitch Users:
-    - sensor.twitch_twitch1
-    - sensor.twitch_twitch2
-    - sensor.twitch_twitch7
+    - sensor.twitch_drzzs
+    - sensor.twitch_jfavignano
+    - sensor.twitch_squirrel
     - weblink.twitch
     - input_boolean.twitch_alerts
+    
+input_boolean:
+  twitch_alerts:
+    name: Twitch Alerts
+    icon: mdi:twitch
+    initial: true
 
 automation:
   # Streamer online notifications.
-  - alias: Entertainment // Twitch / Twitch User Live Notification
+  - alias: Entertainment -- Twitch - Twitch User Live Notification
     id: twitch-user-streaming-automation
     description: Twitch User is Live!
     mode: restart
     trigger:
-      platform: state
+    - platform: state
       entity_id:
-        - sensor.twitch_twitch1
-        - sensor.twitch_twitch2
-        - sensor.twitch_twitch7
-      to: 'streaming'
-      for: 00:00:60
+        - sensor.twitch_drzzs
+        - sensor.twitch_jfavignano
+        - sensor.twitch_jefffavignano_live
+        - sensor.twitch_harrisheller
+      to: "streaming"
+      for: 00:00:01
+#    - platform: state
+#      entity_id: sensor.twitch_hayliekyu
+#      to: 'streaming'
+#      for: 00:00:01
     condition:
       - condition: state
         entity_id: person.wayne
@@ -52,21 +64,23 @@ automation:
         entity_id: input_boolean.twitch_alerts
         state: 'on'
     action:
+      - service: button.press
+        data: {}
+        target:
+          entity_id: button.test_light_living_room_61bc3603_identify
       - service: persistent_notification.create
         data:
           notification_id: twitch_stream
-          title: twitch stream
-          message: >
-              '{{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch https://www.twitch.tv/{{ trigger.to_state.attributes.friendly_name }}/"
-#      - service: notify.parents_living_room_tv
-#        data_template:
-#          message: >
-#            '{{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch'
+          title: Twitch Stream
+          message: Greeting, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch https://www.twitch.tv/{{ trigger.friendly_name }}/"
+      - service: notify.parents_living_room_tv
+        data:
+          message: "Greetings, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch"
+      - service: tts.google_say
+        data:
+          entity_id: media_player.house_speakers
+          message: Twitch Streamer,  {{ trigger.to_state.attributes.friendly_name }} started streaming at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
 #      - service: notify.twitter
 #        data_template:
 #          message: >
-#            {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch   https://www.twitch.tv/{{ trigger.to_state.attributes.friendly_name }}/
-      - service: notify.parents_living_room_tv
-        data_template:
-          message: >
-            {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch
+#            Greetings, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch   https://www.twitch.tv/{{ trigger.to_state.attributes.friendly_name }}/
