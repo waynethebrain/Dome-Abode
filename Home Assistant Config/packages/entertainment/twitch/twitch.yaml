@@ -16,16 +16,15 @@ sensor:
   client_secret: !secret twitch_api_secret
   token: !secret twitch_token
   channels:
-#    - drzzs
-#    - jfavignano
-#    - squirrel
-
+    - drzzs
+    - jfavignano
+    - squirrel
+    - ttthefineprinttt
 group:
   Twitch Users:
     - sensor.twitch_drzzs
     - sensor.twitch_jfavignano
     - sensor.twitch_squirrel
-    - weblink.twitch
     - input_boolean.twitch_alerts
     
 input_boolean:
@@ -46,7 +45,7 @@ automation:
         - sensor.twitch_drzzs
         - sensor.twitch_jfavignano
         - sensor.twitch_jefffavignano_live
-        - sensor.twitch_harrisheller
+        - sensor.twitch_ttthefineprinttt
       to: "streaming"
       for: 00:00:01
 #    - platform: state
@@ -72,7 +71,7 @@ automation:
         data:
           notification_id: twitch_stream
           title: Twitch Stream
-          message: Greeting, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch https://www.twitch.tv/{{ trigger.friendly_name }}/"
+          message: Greeting, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch https://www.twitch.tv/{{ trigger.to_state.attributes.friendly_name }}/"
       - service: notify.parents_living_room_tv
         data:
           message: "Greetings, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch"
@@ -80,7 +79,3 @@ automation:
         data:
           entity_id: media_player.house_speakers
           message: Twitch Streamer,  {{ trigger.to_state.attributes.friendly_name }} started streaming at {{now().strftime("%m/%d/%Y %H:%M %p")}}.
-#      - service: notify.twitter
-#        data_template:
-#          message: >
-#            Greetings, {{ trigger.to_state.attributes.friendly_name }} is streaming live on Twitch   https://www.twitch.tv/{{ trigger.to_state.attributes.friendly_name }}/
