@@ -48,10 +48,6 @@ automation:
         - sensor.twitch_ttthefineprinttt
       to: "streaming"
       for: 00:00:01
-#    - platform: state
-#      entity_id: sensor.twitch_hayliekyu
-#      to: 'streaming'
-#      for: 00:00:01
     condition:
       - condition: state
         entity_id: person.wayne
